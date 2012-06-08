@@ -26,8 +26,8 @@ namespace BrowserSelector
         private void ShowAvailableBrowsers()
         {
             listView1.LargeImageList = new ImageList();
+            listView1.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
             listView1.LargeImageList.ImageSize = new System.Drawing.Size(32, 32);
-            listView1.SmallImageList = new ImageList();
 
             ListViewBrowsers = new Dictionary<ListViewItem, BrowserInfo>();
 
@@ -36,7 +36,6 @@ namespace BrowserSelector
             foreach (BrowserInfo browserInfo in DefaultBrowserHelper.GetAvailableBrowsers("http"))
             {
                 listView1.LargeImageList.Images.Add(browserInfo.Icon);
-                listView1.SmallImageList.Images.Add(browserInfo.Icon);
                 ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
                 ListViewBrowsers.Add(lvi, browserInfo);
                 listView1.Items.Add(lvi);
