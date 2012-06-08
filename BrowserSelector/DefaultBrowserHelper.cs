@@ -141,11 +141,12 @@ namespace BrowserSelector
             string smiName = progId; // Path.GetFileName(Application.ExecutablePath);
             RegistryKey regStartMenuInternet = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.CreateSubKey);
             RegistryKey regProgKey = regStartMenuInternet.CreateSubKey(smiName, RegistryKeyPermissionCheck.ReadWriteSubTree);
+            regProgKey.SetValue(null, "Browser Selector", RegistryValueKind.String);
 
             RegistryKey regCapabilities = regProgKey.CreateSubKey("Capabilities", RegistryKeyPermissionCheck.ReadWriteSubTree);
             regCapabilities.SetValue("ApplicationDescription", "The description of DefaultBrowserHelper", RegistryValueKind.String);
             regCapabilities.SetValue("ApplicationIcon", GetProgramIconPath(), RegistryValueKind.String);
-            regCapabilities.SetValue("ApplicationName", "DefaultBrowserHelper", RegistryValueKind.String);
+            regCapabilities.SetValue("ApplicationName", "Browser Selector", RegistryValueKind.String);
 
             RegistryKey regFileAssociations = regCapabilities.CreateSubKey("FileAssociations", RegistryKeyPermissionCheck.ReadWriteSubTree);
             regFileAssociations.SetValue(".htm", progId, RegistryValueKind.String);
@@ -210,28 +211,46 @@ namespace BrowserSelector
             {
                 if (subkey == GetProgId()) continue;
 
-                RegistryKey regCapabilities = regStartMenuInternet.OpenSubKey(subkey + @"\Capabilities", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
+                string browserName;
+                string exePath;
+                System.Drawing.Icon icon;
+
+                RegistryKey regSubKey = regStartMenuInternet.OpenSubKey(subkey, RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
+                browserName = regSubKey.GetValue(null) as string;
+
+                RegistryKey regCapabilities = regSubKey.OpenSubKey("Capabilities", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                 //TODO: handle IExplorer (which has no Capabilities)
                 if (regCapabilities != null)
                 {
-                    string defaultIconLocation = regCapabilities.GetValue("ApplicationIcon") as string;
-                    string browserName = regCapabilities.GetValue("ApplicationName") as string;
+                    browserName = regCapabilities.GetValue("ApplicationName") as string;
+
+                    string iconLocation = regCapabilities.GetValue("ApplicationIcon") as string;
+                    icon = GetIconFromPath(iconLocation);
 
                     RegistryKey regUrlAssociations = regCapabilities.OpenSubKey("URLAssociations", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     string appSpecProgId = regUrlAssociations.GetValue(protocol) as string;
 
                     RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(appSpecProgId + @"\shell\open\command");
-                    string exePath = regShellOpenCommand.GetValue(null) as string;
+                    exePath = regShellOpenCommand.GetValue(null) as string;
 
-                    System.Drawing.Icon icon = GetIconFromPath(defaultIconLocation);
-
-                    browsers.Add(new BrowserInfo()
-                    {
-                        Name = browserName,
-                        Icon = icon,
-                        ExePath = exePath
-                    });
                 }
+                else
+                {
+                    RegistryKey regDefaultIcon = regStartMenuInternet.OpenSubKey(subkey + @"\DefaultIcon", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
+                    string iconLocation = regDefaultIcon.GetValue(null) as string;
+                    icon = GetIconFromPath(iconLocation);
+
+                    //TODO: find out where IExplorer hides the exe path (in the registry?)
+                    RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(@"Applications\" + subkey + @"\shell\open\command", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
+                    exePath = regShellOpenCommand.GetValue(null) as string;
+                }
+
+                browsers.Add(new BrowserInfo()
+                {
+                    Name = browserName,
+                    Icon = icon,
+                    ExePath = exePath
+                });
             }
 
             return browsers.ToArray();
