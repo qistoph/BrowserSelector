@@ -211,7 +211,7 @@ namespace BrowserSelector
                 if (subkey == GetProgId()) continue;
 
                 RegistryKey regCapabilities = regStartMenuInternet.OpenSubKey(subkey + @"\Capabilities", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
-                //TODO: handle IExcplorer (which has no Capabilities)
+                //TODO: handle IExplorer (which has no Capabilities)
                 if (regCapabilities != null)
                 {
                     string defaultIconLocation = regCapabilities.GetValue("ApplicationIcon") as string;
