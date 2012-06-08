@@ -19,7 +19,10 @@ namespace BrowserSelector
         public Launcher()
         {
             InitializeComponent();
+        }
 
+        private void Launcher_Load(object sender, EventArgs e)
+        {
             ShowAvailableBrowsers();
         }
 
@@ -31,9 +34,10 @@ namespace BrowserSelector
 
             ListViewBrowsers = new Dictionary<ListViewItem, BrowserInfo>();
 
-            //TODO: use actual protocol from argument
+            Uri uri = new Uri(UrlToLaunch);
+
             int n = 0;
-            foreach (BrowserInfo browserInfo in DefaultBrowserHelper.GetAvailableBrowsers("http"))
+            foreach (BrowserInfo browserInfo in DefaultBrowserHelper.GetAvailableBrowsers(uri.Scheme))
             {
                 listView1.LargeImageList.Images.Add(browserInfo.Icon);
                 ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
@@ -42,6 +46,8 @@ namespace BrowserSelector
 
                 n++;
             }
+
+            //TODO: base listView1 width on number of icons (or required size)
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -134,5 +140,6 @@ namespace BrowserSelector
         {
             this.Close();
         }
+
     }
 }

@@ -86,6 +86,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Browser Selector";
+            this.Load += new System.EventHandler(this.Launcher_Load);
             this.ResumeLayout(false);
 
         }

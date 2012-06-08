@@ -196,7 +196,7 @@ namespace BrowserSelector
             return GetProgramExecutablePath() + ",0";
         }
 
-        private static string[] KnownProtocols = new string[] { "http", "https", "ftp" };
+        private static string[] KnownProtocols = new string[] { "http", "https", "ftp", "mailto", "news" };
 
         public static BrowserInfo[] GetAvailableBrowsers(string protocol)
         {
@@ -216,10 +216,8 @@ namespace BrowserSelector
                 System.Drawing.Icon icon;
 
                 RegistryKey regSubKey = regStartMenuInternet.OpenSubKey(subkey, RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
-                browserName = regSubKey.GetValue(null) as string;
 
                 RegistryKey regCapabilities = regSubKey.OpenSubKey("Capabilities", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
-                //TODO: handle IExplorer (which has no Capabilities)
                 if (regCapabilities != null)
                 {
                     browserName = regCapabilities.GetValue("ApplicationName") as string;
@@ -230,17 +228,21 @@ namespace BrowserSelector
                     RegistryKey regUrlAssociations = regCapabilities.OpenSubKey("URLAssociations", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     string appSpecProgId = regUrlAssociations.GetValue(protocol) as string;
 
+                    if (appSpecProgId == null)
+                        continue;
+
                     RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(appSpecProgId + @"\shell\open\command");
                     exePath = regShellOpenCommand.GetValue(null) as string;
 
                 }
                 else
                 {
+                    browserName = regSubKey.GetValue(null) as string;
+
                     RegistryKey regDefaultIcon = regStartMenuInternet.OpenSubKey(subkey + @"\DefaultIcon", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     string iconLocation = regDefaultIcon.GetValue(null) as string;
                     icon = GetIconFromPath(iconLocation);
 
-                    //TODO: find out where IExplorer hides the exe path (in the registry?)
                     RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(@"Applications\" + subkey + @"\shell\open\command", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     exePath = regShellOpenCommand.GetValue(null) as string;
                 }
