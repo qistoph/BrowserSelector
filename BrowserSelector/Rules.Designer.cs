@@ -29,13 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Firefox",
-            "Test1",
-            "Test2"}, 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Chrome", 1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("IE", 2);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Opera", 3);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Rules));
             this.lblRules = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -44,9 +37,9 @@
             this.btnDown = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colBrowser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -101,15 +94,13 @@
             // 
             // listView1
             // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4});
+            this.colRule,
+            this.colBrowser,
+            this.colType});
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(15, 25);
             this.listView1.MultiSelect = false;
@@ -118,7 +109,7 @@
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Tile;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // imageList1
             // 
@@ -129,20 +120,24 @@
             this.imageList1.Images.SetKeyName(2, "icon-Internet Explorer.bmp");
             this.imageList1.Images.SetKeyName(3, "icon-Opera Web browser.bmp");
             // 
-            // columnHeader1
+            // colRule
             // 
-            this.columnHeader1.Width = 88;
+            this.colRule.Text = "Rule";
+            this.colRule.Width = 198;
             // 
-            // columnHeader2
+            // colBrowser
             // 
-            this.columnHeader2.Width = 98;
+            this.colBrowser.Text = "Browser";
+            this.colBrowser.Width = 98;
             // 
-            // columnHeader3
+            // colType
             // 
-            this.columnHeader3.Width = 105;
+            this.colType.Text = "Type";
+            this.colType.Width = 105;
             // 
             // btnClose
             // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(383, 253);
             this.btnClose.Name = "btnClose";
@@ -188,9 +183,9 @@
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader colRule;
+        private System.Windows.Forms.ColumnHeader colBrowser;
+        private System.Windows.Forms.ColumnHeader colType;
         private System.Windows.Forms.Button btnClose;
     }
 }

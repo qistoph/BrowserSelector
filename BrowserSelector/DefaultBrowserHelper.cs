@@ -234,7 +234,6 @@ namespace BrowserSelector
 
                     RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(appSpecProgId + @"\shell\open\command");
                     exePath = regShellOpenCommand.GetValue(null) as string;
-
                 }
                 else
                 {

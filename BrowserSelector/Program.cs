@@ -34,13 +34,31 @@ namespace BrowserSelector
 
             if (urlToLaunch != null)
             {
-                //TODO: determine if it's a known URL, otherwise launch the Launcher
+                Uri uriToLaunch = new Uri(urlToLaunch);
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Launcher form = new Launcher();
-                form.UrlToLaunch = urlToLaunch;
-                Application.Run(form);
+                AppConfig appConfig = AppConfig.GetDefault();
+                SelectionRule matchedRule = null;
+                foreach (SelectionRule rule in appConfig.SelectionRules)
+                {
+                    if (rule.Matches(uriToLaunch))
+                    {
+                        matchedRule = rule;
+                        break;
+                    }
+                }
+
+                if (matchedRule == null)
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Launcher form = new Launcher();
+                    form.UrlToLaunch = urlToLaunch;
+                    Application.Run(form);
+                }
+                else
+                {
+                    MessageBox.Show("Launch with " + matchedRule.TargetBrowserId);
+                }
             }
             else
             {
