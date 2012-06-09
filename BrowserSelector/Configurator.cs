@@ -45,5 +45,10 @@ namespace BrowserSelector
 
             Check();
         }
+
+        private void btnRules_Click(object sender, EventArgs e)
+        {
+            new Rules().ShowDialog();
+        }
     }
 }

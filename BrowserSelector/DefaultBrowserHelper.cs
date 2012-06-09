@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using System.Reflection;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace BrowserSelector
 {
@@ -247,15 +248,87 @@ namespace BrowserSelector
                     exePath = regShellOpenCommand.GetValue(null) as string;
                 }
 
+                //using (System.IO.FileStream fs = new System.IO.FileStream("icon-" + browserName + ".bmp", System.IO.FileMode.Create))
+                //{
+                //    icon.Save(fs);
+                //}
+
+                string executable;
+                string arguments;
+
+                SplitExeAndArgs(exePath, out executable, out arguments);
+
+                string company = FileVersionInfo.GetVersionInfo(executable).CompanyName;
+
                 browsers.Add(new BrowserInfo()
                 {
                     Name = browserName,
                     Icon = icon,
-                    ExePath = exePath
+                    Executable = executable,
+                    Arguments = arguments,
+                    Company = company
                 });
             }
 
             return browsers.ToArray();
+        }
+
+        private static void SplitExeAndArgs(string launchPath, out string exePath, out string arguments)
+        {
+            if (launchPath[0] == '"')
+            {
+                int nextQuote = launchPath.IndexOf('"', 1);
+                exePath = launchPath.Substring(1, nextQuote - 1);
+                arguments = launchPath.Substring(nextQuote + 1);
+            }
+            else
+            {
+                int spaceAt = launchPath.IndexOf(' ');
+                if (spaceAt < 0)
+                {
+                    exePath = launchPath;
+                    arguments = "";
+                }
+                else
+                {
+                    exePath = launchPath.Substring(0, spaceAt);
+                    arguments = launchPath.Substring(spaceAt + 1);
+                }
+            }
+
+            //List<string> pathParts = new List<string>();
+            //StringBuilder str = new StringBuilder();
+            //bool inString = false;
+            //for (int i = 0; i < launchPath.Length; ++i)
+            //{
+            //    char c = launchPath[i];
+
+            //    if (c == '"')
+            //    {
+            //        inString = !inString;
+            //        continue;
+            //    }
+
+            //    if (inString)
+            //    {
+            //        str.Append(c);
+            //    }
+            //    else
+            //    {
+            //        if (c == ' ')
+            //        {
+            //            pathParts.Add(str.ToString());
+            //            str = new StringBuilder();
+            //        }
+            //        else
+            //        {
+            //            str.Append(c);
+            //        }
+            //    }
+            //}
+
+            //if (str.Length > 0)
+            //    pathParts.Add(str.ToString());
         }
 
         private static System.Drawing.Icon GetIconFromPath(string iconLocation)
@@ -285,7 +358,9 @@ namespace BrowserSelector
     {
         public string Name { get; protected internal set; }
         public Icon Icon { get; protected internal set; }
-        public string ExePath { get; protected internal set; }
+        public string Executable { get; protected internal set; }
+        public string Arguments { get; protected internal set; }
+        public string Company { get; protected internal set; }
 
     }
 }

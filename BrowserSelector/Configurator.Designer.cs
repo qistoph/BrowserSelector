@@ -30,6 +30,7 @@
         {
             this.btnCheck = new System.Windows.Forms.Button();
             this.btnSet = new System.Windows.Forms.Button();
+            this.btnRules = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCheck
@@ -44,7 +45,7 @@
             // 
             // btnSet
             // 
-            this.btnSet.Location = new System.Drawing.Point(120, 12);
+            this.btnSet.Location = new System.Drawing.Point(93, 12);
             this.btnSet.Name = "btnSet";
             this.btnSet.Size = new System.Drawing.Size(75, 23);
             this.btnSet.TabIndex = 2;
@@ -52,11 +53,22 @@
             this.btnSet.UseVisualStyleBackColor = true;
             this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
             // 
+            // btnRules
+            // 
+            this.btnRules.Location = new System.Drawing.Point(174, 12);
+            this.btnRules.Name = "btnRules";
+            this.btnRules.Size = new System.Drawing.Size(75, 23);
+            this.btnRules.TabIndex = 2;
+            this.btnRules.Text = "&Rules";
+            this.btnRules.UseVisualStyleBackColor = true;
+            this.btnRules.Click += new System.EventHandler(this.btnRules_Click);
+            // 
             // Configurator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 42);
+            this.ClientSize = new System.Drawing.Size(261, 42);
+            this.Controls.Add(this.btnRules);
             this.Controls.Add(this.btnSet);
             this.Controls.Add(this.btnCheck);
             this.Name = "Configurator";
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.Button btnSet;
+        private System.Windows.Forms.Button btnRules;
     }
 }

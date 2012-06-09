@@ -66,6 +66,12 @@
     <Compile Include="IconExtracter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Rules.Designer.cs">
+      <DependentUpon>Rules.cs</DependentUpon>
+    </Compile>
     <Compile Include="UacHelper.cs" />
     <EmbeddedResource Include="Configurator.resx">
       <DependentUpon>Configurator.cs</DependentUpon>
@@ -82,6 +88,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Rules.resx">
+      <DependentUpon>Rules.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
