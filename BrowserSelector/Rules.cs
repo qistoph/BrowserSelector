@@ -102,12 +102,36 @@ namespace BrowserSelector
 
         private void btnUp_Click(object sender, EventArgs e)
         {
-
+            //TODO: Store the change
+            if (listView1.SelectedIndices.Count > 0)
+            {
+                int orgIndex = listView1.SelectedIndices[0];
+                MoveListViewItem(orgIndex, orgIndex - 1, true);
+            }
         }
 
         private void btnDown_Click(object sender, EventArgs e)
         {
+            //TODO: Store the change
+            if (listView1.SelectedIndices.Count > 0)
+            {
+                int orgIndex = listView1.SelectedIndices[0];
+                MoveListViewItem(orgIndex, orgIndex + 1, true);
+            }
+        }
 
+        private void MoveListViewItem(int oldIndex, int newIndex, bool selectAfterwards)
+        {
+            int maxIndex = listView1.Items.Count - 1;
+            if (oldIndex >= 0 && newIndex >= 0 && oldIndex <= maxIndex && newIndex <= maxIndex)
+            {
+                ListViewItem lvi = listView1.Items[oldIndex];
+                listView1.Items.RemoveAt(oldIndex);
+                listView1.Items.Insert(newIndex, lvi);
+
+                if(selectAfterwards)
+                    lvi.Selected = true;
+            }
         }
     }
 }

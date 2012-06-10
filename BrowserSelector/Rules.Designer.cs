@@ -110,7 +110,7 @@
             this.listView1.Location = new System.Drawing.Point(15, 25);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(362, 251);
+            this.listView1.Size = new System.Drawing.Size(362, 256);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -144,7 +144,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(383, 253);
+            this.btnClose.Location = new System.Drawing.Point(383, 258);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 4;
@@ -168,7 +168,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(470, 297);
+            this.ClientSize = new System.Drawing.Size(470, 293);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.listView1);
