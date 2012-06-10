@@ -38,7 +38,7 @@
             this.btnCheck.Location = new System.Drawing.Point(12, 12);
             this.btnCheck.Name = "btnCheck";
             this.btnCheck.Size = new System.Drawing.Size(75, 23);
-            this.btnCheck.TabIndex = 1;
+            this.btnCheck.TabIndex = 0;
             this.btnCheck.Text = "&Check";
             this.btnCheck.UseVisualStyleBackColor = true;
             this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
@@ -48,7 +48,7 @@
             this.btnSet.Location = new System.Drawing.Point(93, 12);
             this.btnSet.Name = "btnSet";
             this.btnSet.Size = new System.Drawing.Size(75, 23);
-            this.btnSet.TabIndex = 2;
+            this.btnSet.TabIndex = 1;
             this.btnSet.Text = "&Set";
             this.btnSet.UseVisualStyleBackColor = true;
             this.btnSet.Click += new System.EventHandler(this.btnSet_Click);

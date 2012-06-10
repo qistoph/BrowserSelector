@@ -79,7 +79,7 @@
             this.btnOk.Location = new System.Drawing.Point(218, 152);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 3;
+            this.btnOk.TabIndex = 4;
             this.btnOk.Text = "&Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -91,7 +91,7 @@
             this.btnCancel.Location = new System.Drawing.Point(299, 152);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 4;
+            this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -102,7 +102,7 @@
             this.btnRules.Location = new System.Drawing.Point(12, 152);
             this.btnRules.Name = "btnRules";
             this.btnRules.Size = new System.Drawing.Size(75, 23);
-            this.btnRules.TabIndex = 5;
+            this.btnRules.TabIndex = 3;
             this.btnRules.Text = "&Rules";
             this.btnRules.UseVisualStyleBackColor = true;
             this.btnRules.Click += new System.EventHandler(this.btnRules_Click);
@@ -113,7 +113,7 @@
             this.label1.Location = new System.Drawing.Point(50, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(260, 13);
-            this.label1.TabIndex = 6;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Choose the program you want to use to open this link:";
             // 
             // lblUrl
@@ -123,7 +123,7 @@
             this.lblUrl.Location = new System.Drawing.Point(50, 35);
             this.lblUrl.Name = "lblUrl";
             this.lblUrl.Size = new System.Drawing.Size(324, 13);
-            this.lblUrl.TabIndex = 7;
+            this.lblUrl.TabIndex = 1;
             this.lblUrl.Text = "Link: ...";
             // 
             // pbIcon

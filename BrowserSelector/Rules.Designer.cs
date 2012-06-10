@@ -50,7 +50,7 @@
             this.lblRules.Location = new System.Drawing.Point(12, 9);
             this.lblRules.Name = "lblRules";
             this.lblRules.Size = new System.Drawing.Size(37, 13);
-            this.lblRules.TabIndex = 1;
+            this.lblRules.TabIndex = 0;
             this.lblRules.Text = "Rules:";
             // 
             // btnAdd
@@ -70,7 +70,7 @@
             this.btnRemove.Location = new System.Drawing.Point(383, 83);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(75, 23);
-            this.btnRemove.TabIndex = 2;
+            this.btnRemove.TabIndex = 4;
             this.btnRemove.Text = "&Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -81,7 +81,7 @@
             this.btnUp.Location = new System.Drawing.Point(383, 112);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(75, 23);
-            this.btnUp.TabIndex = 2;
+            this.btnUp.TabIndex = 5;
             this.btnUp.Text = "&Up";
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
@@ -92,7 +92,7 @@
             this.btnDown.Location = new System.Drawing.Point(383, 141);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(75, 23);
-            this.btnDown.TabIndex = 2;
+            this.btnDown.TabIndex = 6;
             this.btnDown.Text = "&Down";
             this.btnDown.UseVisualStyleBackColor = true;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
@@ -112,7 +112,7 @@
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(362, 256);
             this.listView1.SmallImageList = this.imageList1;
-            this.listView1.TabIndex = 3;
+            this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
@@ -147,7 +147,7 @@
             this.btnClose.Location = new System.Drawing.Point(383, 258);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 4;
+            this.btnClose.TabIndex = 7;
             this.btnClose.Text = "&Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -158,7 +158,7 @@
             this.btnEdit.Location = new System.Drawing.Point(383, 54);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 5;
+            this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "&Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
