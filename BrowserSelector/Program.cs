@@ -64,7 +64,10 @@ namespace BrowserSelector
                     form.UrlToLaunch = urlToLaunch;
                     Application.Run(form);
 
-                    appConfig.Save(ConfigFileName);
+                    if (form.DialogResult == DialogResult.OK)
+                    {
+                        appConfig.Save(ConfigFileName);
+                    }
                 }
                 else
                 {
