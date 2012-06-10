@@ -38,17 +38,13 @@ namespace BrowserSelector
             foreach (BrowserInfo browser in browsers)
             {
                 browserNameToIndex.Add(browser.Name, n);
-                listView1.SmallImageList.Images.Add(browser.Icon);
+                listView1.SmallImageList.Images.Add(browser.Name, browser.Icon);
                 n++;
             }
 
             foreach (SelectionRule rule in rules)
             {
-                ListViewItem lvi = new ListViewItem(rule.RuleText);
-                lvi.SubItems.Add(rule.TargetBrowserId);
-                lvi.SubItems.Add(rule.Type.ToString());
-                lvi.ImageIndex = browserNameToIndex[rule.TargetBrowserId];
-
+                RuleListViewItem lvi = new RuleListViewItem(rule);
                 listView1.Items.Add(lvi);
             }
         }
@@ -56,6 +52,62 @@ namespace BrowserSelector
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            EditRule(new SelectionRule(), true);
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                EditRule(((RuleListViewItem)listView1.SelectedItems[0]).Rule, false);
+            }
+        }
+
+        private void EditRule(SelectionRule rule, bool addIfOk)
+        {
+            RuleEditor editor = new RuleEditor();
+            editor.LoadRule(rule);
+            if (DialogResult.OK == editor.ShowDialog(this))
+            {
+                editor.UpdateRule(rule);
+                if (addIfOk)
+                {
+                    AddNewRule(rule);
+                }
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                // TODO: Store the removal
+
+                listView1.Items.RemoveAt(listView1.SelectedIndices[0]);
+            }
+        }
+
+        private void AddNewRule(SelectionRule rule)
+        {
+            // TODO: Store the new rule
+
+            // Display the new rule
+            RuleListViewItem lvi = new RuleListViewItem(rule);
+            listView1.Items.Add(lvi);
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

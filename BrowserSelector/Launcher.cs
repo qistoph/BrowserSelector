@@ -51,8 +51,6 @@ namespace BrowserSelector
 
                 n++;
             }
-
-            //TODO: base listView1 width on number of icons (or required size)
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)

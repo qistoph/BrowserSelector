@@ -8,7 +8,6 @@ namespace BrowserSelector
 {
     public enum RuleType {
         Protocol,
-        Wildcard,
         Regex
     }
 
@@ -40,8 +39,6 @@ namespace BrowserSelector
             {
                 case RuleType.Protocol:
                     return MatchesProtocol(uri);
-                case RuleType.Wildcard:
-                    return MatchesWildcard(uri);
                 case RuleType.Regex:
                     return MatchesRegex(uri);
                 default:
@@ -52,11 +49,6 @@ namespace BrowserSelector
         private bool MatchesProtocol(Uri uri)
         {
             return uri.Scheme.ToLower() == RuleText.ToLower();
-        }
-
-        private bool MatchesWildcard(Uri uri)
-        {
-            throw new NotImplementedException();
         }
 
         private bool MatchesRegex(Uri uri)
