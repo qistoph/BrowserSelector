@@ -16,12 +16,17 @@ namespace BrowserSelector
         public RuleEditor()
         {
             InitializeComponent();
+        }
+
+        public RuleEditor(BrowserInfo[] browsers)
+        {
+            InitializeComponent();
 
             ecbRuleType = new EnumComboBox<RuleType>(cmbRuleType);
             ecbRuleType.SelectedItem = RuleType.Regex;
             cmbRuleType = ecbRuleType;
 
-            ShowBrowsers();
+            ShowBrowsers(browsers);
         }
 
         public void LoadRule(SelectionRule rule)
@@ -39,11 +44,10 @@ namespace BrowserSelector
             }
         }
 
-        private void ShowBrowsers()
+        private void ShowBrowsers(BrowserInfo[] browsers)
         {
             cmbBrowser.Items.Clear();
-            //TODO: find all browsers, not just handlers of http
-            BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+
             foreach (BrowserInfo browser in browsers)
             {
                 cmbBrowser.Items.Add(browser);

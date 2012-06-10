@@ -21,6 +21,16 @@ namespace BrowserSelector
             InitializeComponent();
         }
 
+        private AppConfig AppConfig;
+        private BrowserInfo[] Browsers;
+
+        public Launcher(AppConfig config, BrowserInfo[] browsers)
+        {
+            AppConfig = config;
+            Browsers = browsers;
+            InitializeComponent();
+        }
+
         private void Launcher_Load(object sender, EventArgs e)
         {
             lblUrl.Text = "Link: " + UrlToLaunch;
@@ -80,7 +90,7 @@ namespace BrowserSelector
 
         private void btnRules_Click(object sender, EventArgs e)
         {
-            new Rules().ShowDialog();
+            new Rules(AppConfig, Browsers).ShowDialog();
         }
 
     }

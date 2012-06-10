@@ -11,14 +11,19 @@ namespace BrowserSelector
 {
     public partial class Rules : Form
     {
+        private BrowserInfo[] Browsers;
+
         public Rules()
         {
             InitializeComponent();
+        }
 
-            //TODO: find all browsers, not just handlers of http
-            BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+        public Rules(AppConfig config, BrowserInfo[] browsers)
+        {
+            Browsers = browsers;
 
-            AppConfig config = AppConfig.GetDefault();
+            InitializeComponent();
+
             DisplayRules(config.SelectionRules, browsers);
 
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -69,7 +74,7 @@ namespace BrowserSelector
 
         private void EditRule(SelectionRule rule, bool addIfOk)
         {
-            RuleEditor editor = new RuleEditor();
+            RuleEditor editor = new RuleEditor(Browsers);
             editor.LoadRule(rule);
             if (DialogResult.OK == editor.ShowDialog(this))
             {

@@ -11,9 +11,19 @@ namespace BrowserSelector
 {
     public partial class Configurator : Form
     {
+        private AppConfig AppConfig;
+        private BrowserInfo[] Browsers;
+
         public Configurator()
         {
             InitializeComponent();
+        }
+
+        public Configurator(AppConfig config, BrowserInfo[] browser)
+        {
+            InitializeComponent();
+            AppConfig = config;
+            Browsers = browser;
         }
 
         private void btnCheck_Click(object sender, EventArgs e)
@@ -48,7 +58,8 @@ namespace BrowserSelector
 
         private void btnRules_Click(object sender, EventArgs e)
         {
-            new Rules().ShowDialog();
+            Rules rules = new Rules(AppConfig, Browsers);
+            rules.ShowDialog(this);
         }
     }
 }

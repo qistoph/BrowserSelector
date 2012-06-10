@@ -32,6 +32,9 @@ namespace BrowserSelector
             if (n < arguments.Length)
                 urlToLaunch = arguments[n];
 
+            //TODO: find all browsers, not just handlers of http
+            BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+
             if (urlToLaunch != null)
             {
                 Uri uriToLaunch = new Uri(urlToLaunch);
@@ -51,14 +54,12 @@ namespace BrowserSelector
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Launcher form = new Launcher();
+                    Launcher form = new Launcher(appConfig, browsers);
                     form.UrlToLaunch = urlToLaunch;
                     Application.Run(form);
                 }
                 else
                 {
-                    //TODO: find all browsers, not just handlers of http
-                    BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
                     BrowserInfo browser = browsers.First(bi => bi.Name == matchedRule.TargetBrowserId);
                     browser.Launch(urlToLaunch);
                 }
@@ -71,9 +72,11 @@ namespace BrowserSelector
                 }
                 else
                 {
+                    AppConfig appConfig = AppConfig.GetDefault();
+
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Configurator());
+                    Application.Run(new Configurator(appConfig, browsers));
                 }
             }
         }
