@@ -24,6 +24,9 @@ namespace BrowserSelector
             InitializeComponent();
             AppConfig = config;
             Browsers = browser;
+
+            Text = Properties.Resources.AppName;
+            Icon = Properties.Resources.AppIcon;
         }
 
         private void btnCheck_Click(object sender, EventArgs e)

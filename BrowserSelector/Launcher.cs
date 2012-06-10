@@ -29,6 +29,11 @@ namespace BrowserSelector
             AppConfig = config;
             Browsers = browsers;
             InitializeComponent();
+
+            Text = Properties.Resources.AppName;
+            Icon = Properties.Resources.AppIcon;
+
+            pbIcon.Image = Icon.ToBitmap();
         }
 
         private void Launcher_Load(object sender, EventArgs e)
