@@ -35,8 +35,16 @@ namespace BrowserSelector
             if (n < arguments.Length)
                 urlToLaunch = arguments[n];
 
+            AppConfig appConfig = AppConfig.LoadOrDefault(configFileName);
+
             //TODO: find all browsers, not just handlers of http
-            BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+            CustomBrowserHelper customBrowserHelper = new CustomBrowserHelper(appConfig);
+            BrowserInfo[] defaultBrowsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+            BrowserInfo[] customBrowsers = customBrowserHelper.GetAvailableBrowsers();
+
+            BrowserInfo[] browsers = new BrowserInfo[defaultBrowsers.Length + customBrowsers.Length];
+            defaultBrowsers.CopyTo(browsers, 0);
+            customBrowsers.CopyTo(browsers, defaultBrowsers.Length);
 
             if (urlToLaunch != null)
             {
@@ -50,8 +58,6 @@ namespace BrowserSelector
                 }
                 else
                 {
-                    AppConfig appConfig = AppConfig.LoadOrDefault(configFileName);
-
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Configurator(appConfig, browsers));

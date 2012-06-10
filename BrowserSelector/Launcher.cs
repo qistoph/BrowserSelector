@@ -54,17 +54,40 @@ namespace BrowserSelector
 
             Uri uri = new Uri(UrlToLaunch);
 
+            //TODO: don't create CustomBrowserHelper every time
+            CustomBrowserHelper customBrowserHelper = new CustomBrowserHelper(AppConfig);
+
+            BrowserInfo[] defaultBrowsers = DefaultBrowserHelper.GetAvailableBrowsers(uri.Scheme);
+            BrowserInfo[] customBrowsers = customBrowserHelper.GetAvailableBrowsers(uri.Scheme);
+            
+            BrowserInfo[] browsers = new BrowserInfo[defaultBrowsers.Length + customBrowsers.Length];
+            defaultBrowsers.CopyTo(browsers, 0);
+            customBrowsers.CopyTo(browsers, defaultBrowsers.Length);
+
             int n = 0;
-            foreach (BrowserInfo browserInfo in DefaultBrowserHelper.GetAvailableBrowsers(uri.Scheme))
+            foreach (BrowserInfo browserInfo in browsers)
             {
                 listView1.LargeImageList.Images.Add(browserInfo.Icon);
                 ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
-                lvi.Group = listView1.Groups["lvgDefault"];
+                lvi.Group = listView1.Groups[GetCategoryName(browserInfo.Category)];
                 lvi.SubItems.Add(browserInfo.Company);
                 ListViewBrowsers.Add(lvi, browserInfo);
                 listView1.Items.Add(lvi);
 
                 n++;
+            }
+        }
+
+        private string GetCategoryName(BrowserCategory browserCategory)
+        {
+            switch (browserCategory)
+            {
+                case BrowserCategory.Default:
+                    return "lvgDefault";
+                case BrowserCategory.Custom:
+                    return "lvgCustom";
+                default:
+                    throw new ArgumentException("Unknown browser category: " + browserCategory);
             }
         }
 

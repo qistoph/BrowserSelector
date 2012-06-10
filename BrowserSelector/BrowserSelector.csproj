@@ -51,12 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="BrowserInfo.cs" />
     <Compile Include="Configurator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Configurator.Designer.cs">
       <DependentUpon>Configurator.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomBrowserHelper.cs" />
     <Compile Include="DefaultBrowserHelper.cs" />
     <Compile Include="EnumComboBox.cs">
       <SubType>Component</SubType>

@@ -13,7 +13,11 @@ namespace BrowserSelector
     {
         private static XmlSerializer ConfigSerializer = new XmlSerializer(typeof(AppConfig));
 
+        [XmlElement("SelectionRule", typeof(SelectionRule))]
         public List<SelectionRule> SelectionRules { get; set; }
+
+        [XmlElement("CustomBrowser", typeof(BrowserInfo))]
+        public List<BrowserInfo> CustomBrowsers { get; set; }
 
         [XmlIgnore]
         public bool UnsavedChanges { get; set; }
@@ -24,9 +28,15 @@ namespace BrowserSelector
             selectionRules.Add(new SelectionRule("Internet Explorer", RuleType.Regex, @"https?://.*\.microsoft\.com.*"));
             //selectionRules.Add(new SelectionRule("Google Chrome", RuleType.Regex, "(ftp)|(https?)"));
 
+            List<BrowserInfo> customBrowsers = new List<BrowserInfo>();
+            customBrowsers.Add(new BrowserInfo("WinSCP", BrowserCategory.Custom, @"C:\progs\WinSCP\WinSCP.exe", "%1"));
+            customBrowsers[0].AppliesTo = new List<string>();
+            customBrowsers[0].AppliesTo.Add("ftp");
+
             AppConfig config = new AppConfig()
             {
                 SelectionRules = selectionRules,
+                CustomBrowsers = customBrowsers,
                 UnsavedChanges = false
             };
             return config;
@@ -67,6 +77,13 @@ namespace BrowserSelector
         {
             AppConfig config = (AppConfig)ConfigSerializer.Deserialize(s);
             config.UnsavedChanges = false;
+
+            //TODO: optimize for speed, don't load if not necessary
+            foreach (BrowserInfo bi in config.CustomBrowsers)
+            {
+                bi.Category = BrowserCategory.Custom;
+                bi.SetValuesFromExe();
+            }
 
             return config;
         }
