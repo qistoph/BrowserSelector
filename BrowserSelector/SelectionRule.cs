@@ -6,16 +6,36 @@ using System.Text.RegularExpressions;
 
 namespace BrowserSelector
 {
-    public enum RuleType {
+    public enum RuleType
+    {
         Protocol,
         Regex
     }
 
     public class SelectionRule
     {
+        private RuleType _Type;
+        private string _RuleText;
+
         public string TargetBrowserId { get; set; }
-        public RuleType Type { get; set; }
-        public string RuleText { get; set; }
+        public RuleType Type
+        {
+            get { return _Type; }
+            set
+            {
+                _Type = value;
+                RuleRegex = null;
+            }
+        }
+        public string RuleText
+        {
+            get { return _RuleText; }
+            set
+            {
+                _RuleText = value;
+                RuleRegex = new Regex(_RuleText);
+            }
+        }
 
         private Regex RuleRegex = null;
 
@@ -24,8 +44,8 @@ namespace BrowserSelector
         public SelectionRule(string targetBrowserId, RuleType type, string ruleText)
         {
             TargetBrowserId = targetBrowserId;
-            Type = type;
-            RuleText = ruleText;
+            _Type = type;
+            _RuleText = ruleText;
 
             if (Type == RuleType.Regex)
             {
@@ -56,5 +76,16 @@ namespace BrowserSelector
             return RuleRegex.IsMatch(uri.ToString());
         }
 
+        public override string ToString()
+        {
+            StringBuilder str = new StringBuilder();
+
+            str.Append("SelectionRule { ");
+            str.Append(Type.ToString()).Append(", ");
+            str.Append(TargetBrowserId).Append(", ");
+            str.Append(RuleText).Append(" }");
+
+            return str.ToString();
+        }
     }
 }

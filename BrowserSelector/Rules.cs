@@ -12,6 +12,7 @@ namespace BrowserSelector
     public partial class Rules : Form
     {
         private BrowserInfo[] Browsers;
+        private AppConfig AppConfig;
 
         public Rules()
         {
@@ -20,6 +21,7 @@ namespace BrowserSelector
 
         public Rules(AppConfig config, BrowserInfo[] browsers)
         {
+            AppConfig = config;
             Browsers = browsers;
 
             InitializeComponent();
@@ -88,54 +90,81 @@ namespace BrowserSelector
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
+
             if (listView1.SelectedItems.Count > 0)
             {
-                // TODO: Store the removal
+                AppConfig.SelectionRules.Remove(((RuleListViewItem)listView1.SelectedItems[0]).Rule);
 
                 listView1.Items.RemoveAt(listView1.SelectedIndices[0]);
             }
+
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
         }
 
         private void AddNewRule(SelectionRule rule)
         {
-            // TODO: Store the new rule
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
+
+            // Store the new rule
+            AppConfig.SelectionRules.Add(rule);
 
             // Display the new rule
             RuleListViewItem lvi = new RuleListViewItem(rule);
             listView1.Items.Add(lvi);
+
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
         }
 
         private void btnUp_Click(object sender, EventArgs e)
         {
-            //TODO: Store the change
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
+
             if (listView1.SelectedIndices.Count > 0)
             {
                 int orgIndex = listView1.SelectedIndices[0];
-                MoveListViewItem(orgIndex, orgIndex - 1, true);
+                MoveRule(orgIndex, orgIndex - 1, true);
             }
+
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
         }
 
         private void btnDown_Click(object sender, EventArgs e)
         {
-            //TODO: Store the change
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
+
             if (listView1.SelectedIndices.Count > 0)
             {
                 int orgIndex = listView1.SelectedIndices[0];
-                MoveListViewItem(orgIndex, orgIndex + 1, true);
+                MoveRule(orgIndex, orgIndex + 1, true);
             }
+
+            System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
         }
 
-        private void MoveListViewItem(int oldIndex, int newIndex, bool selectAfterwards)
+        private void MoveRule(int oldIndex, int newIndex, bool selectAfterwards)
         {
             int maxIndex = listView1.Items.Count - 1;
             if (oldIndex >= 0 && newIndex >= 0 && oldIndex <= maxIndex && newIndex <= maxIndex)
             {
+                System.Diagnostics.Debug.Assert(((RuleListViewItem)listView1.Items[oldIndex]).Rule == AppConfig.SelectionRules[oldIndex]);
+                System.Diagnostics.Debug.Assert(((RuleListViewItem)listView1.Items[newIndex]).Rule == AppConfig.SelectionRules[newIndex]);
+
                 ListViewItem lvi = listView1.Items[oldIndex];
                 listView1.Items.RemoveAt(oldIndex);
                 listView1.Items.Insert(newIndex, lvi);
 
-                if(selectAfterwards)
+                SelectionRule rule = ((RuleListViewItem)lvi).Rule;
+                System.Diagnostics.Debug.Assert(rule == AppConfig.SelectionRules[oldIndex]);
+                // If that premesis is false, use SelectionRule rule = AppConfig.SelectionRules[oldIndex];
+                AppConfig.SelectionRules.RemoveAt(oldIndex);
+                AppConfig.SelectionRules.Insert(newIndex, rule);
+
+                if (selectAfterwards)
                     lvi.Selected = true;
+
+                System.Diagnostics.Debug.Assert(((RuleListViewItem)listView1.Items[oldIndex]).Rule == AppConfig.SelectionRules[oldIndex]);
+                System.Diagnostics.Debug.Assert(((RuleListViewItem)listView1.Items[newIndex]).Rule == AppConfig.SelectionRules[newIndex]);
             }
         }
     }

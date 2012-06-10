@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 namespace BrowserSelector
 {
@@ -14,6 +15,10 @@ namespace BrowserSelector
         [STAThread]
         static void Main(string[] arguments)
         {
+            string exePath = Path.GetDirectoryName(Application.ExecutablePath);
+            string exeNameWithoutExt = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+            string ConfigFileName = Path.Combine(exePath, exeNameWithoutExt + ".config");
+
             string urlToLaunch = null;
             int n = 0;
             for (; n < arguments.Length; ++n)
@@ -39,7 +44,8 @@ namespace BrowserSelector
             {
                 Uri uriToLaunch = new Uri(urlToLaunch);
 
-                AppConfig appConfig = AppConfig.GetDefault();
+                AppConfig appConfig = AppConfig.LoadOrDefault(ConfigFileName);
+
                 SelectionRule matchedRule = null;
                 foreach (SelectionRule rule in appConfig.SelectionRules)
                 {
@@ -57,6 +63,8 @@ namespace BrowserSelector
                     Launcher form = new Launcher(appConfig, browsers);
                     form.UrlToLaunch = urlToLaunch;
                     Application.Run(form);
+
+                    appConfig.Save(ConfigFileName);
                 }
                 else
                 {
@@ -72,11 +80,13 @@ namespace BrowserSelector
                 }
                 else
                 {
-                    AppConfig appConfig = AppConfig.GetDefault();
+                    AppConfig appConfig = AppConfig.LoadOrDefault(ConfigFileName);
 
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Configurator(appConfig, browsers));
+
+                    appConfig.Save(ConfigFileName);
                 }
             }
         }
