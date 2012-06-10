@@ -15,7 +15,7 @@ namespace BrowserSelector
         {
             InitializeComponent();
 
-            //TODO: find all browsers, not just handlers
+            //TODO: find all browsers, not just handlers of http
             BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
 
             AppConfig config = AppConfig.GetDefault();

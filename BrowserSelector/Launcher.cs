@@ -23,6 +23,7 @@ namespace BrowserSelector
 
         private void Launcher_Load(object sender, EventArgs e)
         {
+            lblUrl.Text = "Link: " + UrlToLaunch;
             ShowAvailableBrowsers();
         }
 
@@ -43,9 +44,7 @@ namespace BrowserSelector
             {
                 listView1.LargeImageList.Images.Add(browserInfo.Icon);
                 ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
-
-                //FileVersionInfo.GetVersionInfo(browserInfo.ExePath);
-
+                lvi.Group = listView1.Groups["lvgDefault"];
                 lvi.SubItems.Add(browserInfo.Company);
                 ListViewBrowsers.Add(lvi, browserInfo);
                 listView1.Items.Add(lvi);
@@ -66,14 +65,7 @@ namespace BrowserSelector
             if (listView1.SelectedItems.Count == 1)
             {
                 BrowserInfo browser = ListViewBrowsers[listView1.SelectedItems[0]];
-
-                ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = browser.Executable;
-                psi.Arguments = browser.Arguments.Replace("%1", UrlToLaunch); ;
-
-                //MessageBox.Show("Exe: " + exePath + Environment.NewLine + "Args: " + arguments);
-
-                Process.Start(psi);
+                browser.Launch(UrlToLaunch);
                 this.Close();
             }
         }

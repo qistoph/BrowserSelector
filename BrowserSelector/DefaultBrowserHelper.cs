@@ -361,5 +361,15 @@ namespace BrowserSelector
         public string Arguments { get; protected internal set; }
         public string Company { get; protected internal set; }
 
+        public void Launch(string url)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = Executable;
+            psi.Arguments = Arguments.Replace("%1", url); ;
+
+            //MessageBox.Show("Exe: " + exePath + Environment.NewLine + "Args: " + arguments);
+
+            Process.Start(psi);
+        }
     }
 }

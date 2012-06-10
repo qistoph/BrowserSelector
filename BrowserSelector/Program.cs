@@ -57,7 +57,10 @@ namespace BrowserSelector
                 }
                 else
                 {
-                    MessageBox.Show("Launch with " + matchedRule.TargetBrowserId);
+                    //TODO: find all browsers, not just handlers of http
+                    BrowserInfo[] browsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+                    BrowserInfo browser = browsers.First(bi => bi.Name == matchedRule.TargetBrowserId);
+                    browser.Launch(urlToLaunch);
                 }
             }
             else
