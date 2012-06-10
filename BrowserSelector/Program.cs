@@ -40,38 +40,7 @@ namespace BrowserSelector
 
             if (urlToLaunch != null)
             {
-                Uri uriToLaunch = new Uri(urlToLaunch);
-
-                AppConfig appConfig = AppConfig.LoadOrDefault(configFileName);
-
-                SelectionRule matchedRule = null;
-                foreach (SelectionRule rule in appConfig.SelectionRules)
-                {
-                    if (rule.Matches(uriToLaunch))
-                    {
-                        matchedRule = rule;
-                        break;
-                    }
-                }
-
-                if (matchedRule == null)
-                {
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    Launcher form = new Launcher(appConfig, browsers);
-                    form.UrlToLaunch = urlToLaunch;
-                    Application.Run(form);
-
-                    if (form.DialogResult == DialogResult.OK)
-                    {
-                        appConfig.Save(configFileName);
-                    }
-                }
-                else
-                {
-                    BrowserInfo browser = browsers.First(bi => bi.Name == matchedRule.TargetBrowserId);
-                    browser.Launch(urlToLaunch);
-                }
+                LaunchUrl(urlToLaunch, browsers);
             }
             else
             {
@@ -86,9 +55,43 @@ namespace BrowserSelector
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Configurator(appConfig, browsers));
-
-                    appConfig.Save(configFileName);
                 }
+            }
+        }
+
+        private static void LaunchUrl(string urlToLaunch, BrowserInfo[] browsers)
+        {
+            Uri uriToLaunch = new Uri(urlToLaunch);
+
+            AppConfig appConfig = AppConfig.LoadOrDefault(GetConfigName());
+
+            SelectionRule matchedRule = null;
+            foreach (SelectionRule rule in appConfig.SelectionRules)
+            {
+                if (rule.Matches(uriToLaunch))
+                {
+                    matchedRule = rule;
+                    break;
+                }
+            }
+
+            if (matchedRule == null)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Launcher form = new Launcher(appConfig, browsers);
+                form.UrlToLaunch = urlToLaunch;
+                Application.Run(form);
+
+                if (form.DialogResult == DialogResult.OK)
+                {
+                    appConfig.Save(GetConfigName());
+                }
+            }
+            else
+            {
+                BrowserInfo browser = browsers.First(bi => bi.Name == matchedRule.TargetBrowserId);
+                browser.Launch(urlToLaunch);
             }
         }
 
