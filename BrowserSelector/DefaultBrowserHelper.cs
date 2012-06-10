@@ -197,13 +197,8 @@ namespace BrowserSelector
             return GetProgramExecutablePath() + ",0";
         }
 
-        private static string[] KnownProtocols = new string[] { "http", "https", "ftp", "mailto", "news" };
-
-        public static BrowserInfo[] GetAvailableBrowsers(string protocol)
+        public static BrowserInfo[] GetAvailableBrowsers()
         {
-            if (!KnownProtocols.Contains(protocol))
-                throw new ArgumentException("Unknown protocol: " + protocol, "protocol");
-
             List<BrowserInfo> browsers = new List<BrowserInfo>();
 
             //HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\CVM.DefaultBrowserHelper\Capabilities\URLAssociations
@@ -213,8 +208,9 @@ namespace BrowserSelector
                 if (subkey == GetProgId()) continue;
 
                 string browserName;
-                string exePath;
+                string exePath = null;
                 System.Drawing.Icon icon;
+                List<string> appliesTo = new List<string>();
 
                 RegistryKey regSubKey = regStartMenuInternet.OpenSubKey(subkey, RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
 
@@ -227,13 +223,33 @@ namespace BrowserSelector
                     icon = GetIconFromPath(iconLocation);
 
                     RegistryKey regUrlAssociations = regCapabilities.OpenSubKey("URLAssociations", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
-                    string appSpecProgId = regUrlAssociations.GetValue(protocol) as string;
+                    string lastAppSpecId = null;
 
-                    if (appSpecProgId == null)
-                        continue;
+                    foreach (string scheme in regUrlAssociations.GetValueNames())
+                    {
+                        string appSpecProgId = regUrlAssociations.GetValue(scheme) as string;
+                        if (appSpecProgId == null)
+                        {
+                            throw new ApplicationException("appSpecProgId == null");
+                        }
 
-                    RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(appSpecProgId + @"\shell\open\command");
-                    exePath = regShellOpenCommand.GetValue(null) as string;
+                        if (lastAppSpecId != null)
+                        {
+                            if (appSpecProgId != lastAppSpecId)
+                            {
+                                throw new ApplicationException("appSpecProgId != lastAppSpecId");
+                            }
+                        }
+                        else
+                        {
+                            lastAppSpecId = appSpecProgId;
+                            RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(appSpecProgId + @"\shell\open\command");
+                            exePath = regShellOpenCommand.GetValue(null) as string;
+                        }
+
+                        appliesTo.Add(scheme);
+                    }
+
                 }
                 else
                 {
@@ -245,6 +261,11 @@ namespace BrowserSelector
 
                     RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(@"Applications\" + subkey + @"\shell\open\command", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     exePath = regShellOpenCommand.GetValue(null) as string;
+
+                    //TODO: load this from the registry, somehow?
+                    appliesTo.Add("http");
+                    appliesTo.Add("https");
+                    appliesTo.Add("ftp");
                 }
 
                 //using (System.IO.FileStream fs = new System.IO.FileStream("icon-" + browserName + ".bmp", System.IO.FileMode.Create))
@@ -252,7 +273,10 @@ namespace BrowserSelector
                 //    icon.Save(fs);
                 //}
 
-                browsers.Add(new BrowserInfo(browserName, BrowserCategory.Default, exePath, icon));
+                if (exePath == null)
+                    throw new ApplicationException("exePath == null");
+
+                browsers.Add(new BrowserInfo(browserName, BrowserCategory.Default, exePath, icon) { AppliesTo = appliesTo });
             }
 
             return browsers.ToArray();

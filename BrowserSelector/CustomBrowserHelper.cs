@@ -18,20 +18,5 @@ namespace BrowserSelector
         {
             return AppConfig.CustomBrowsers.ToArray();
         }
-
-        public BrowserInfo[] GetAvailableBrowsers(string protocol)
-        {
-            List<BrowserInfo> browsers = new List<BrowserInfo>();
-
-            foreach (BrowserInfo bi in AppConfig.CustomBrowsers)
-            {
-                if (bi.AppliesTo.Contains(protocol))
-                {
-                    browsers.Add(bi);
-                }
-            }
-
-            return browsers.ToArray();
-        }
     }
 }

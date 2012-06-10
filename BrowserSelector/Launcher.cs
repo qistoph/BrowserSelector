@@ -54,18 +54,8 @@ namespace BrowserSelector
 
             Uri uri = new Uri(UrlToLaunch);
 
-            //TODO: don't create CustomBrowserHelper every time
-            CustomBrowserHelper customBrowserHelper = new CustomBrowserHelper(AppConfig);
-
-            BrowserInfo[] defaultBrowsers = DefaultBrowserHelper.GetAvailableBrowsers(uri.Scheme);
-            BrowserInfo[] customBrowsers = customBrowserHelper.GetAvailableBrowsers(uri.Scheme);
-            
-            BrowserInfo[] browsers = new BrowserInfo[defaultBrowsers.Length + customBrowsers.Length];
-            defaultBrowsers.CopyTo(browsers, 0);
-            customBrowsers.CopyTo(browsers, defaultBrowsers.Length);
-
             int n = 0;
-            foreach (BrowserInfo browserInfo in browsers)
+            foreach (BrowserInfo browserInfo in Browsers.Where(bi => bi.AppliesTo.Contains(uri.Scheme)))
             {
                 listView1.LargeImageList.Images.Add(browserInfo.Icon);
                 ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
@@ -108,7 +98,7 @@ namespace BrowserSelector
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if(AppConfig.UnsavedChanges)
+            if (AppConfig.UnsavedChanges)
                 AppConfig.Save(Program.GetConfigName());
 
             LaunchUrlInSelectedBrowser();

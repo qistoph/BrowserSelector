@@ -39,7 +39,7 @@ namespace BrowserSelector
 
             //TODO: find all browsers, not just handlers of http
             CustomBrowserHelper customBrowserHelper = new CustomBrowserHelper(appConfig);
-            BrowserInfo[] defaultBrowsers = DefaultBrowserHelper.GetAvailableBrowsers("http");
+            BrowserInfo[] defaultBrowsers = DefaultBrowserHelper.GetAvailableBrowsers();
             BrowserInfo[] customBrowsers = customBrowserHelper.GetAvailableBrowsers();
 
             BrowserInfo[] browsers = new BrowserInfo[defaultBrowsers.Length + customBrowsers.Length];
