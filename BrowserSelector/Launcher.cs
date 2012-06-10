@@ -16,13 +16,13 @@ namespace BrowserSelector
 
         protected internal string UrlToLaunch { get; set; }
 
+        private AppConfig AppConfig;
+        private BrowserInfo[] Browsers;
+
         public Launcher()
         {
             InitializeComponent();
         }
-
-        private AppConfig AppConfig;
-        private BrowserInfo[] Browsers;
 
         public Launcher(AppConfig config, BrowserInfo[] browsers)
         {

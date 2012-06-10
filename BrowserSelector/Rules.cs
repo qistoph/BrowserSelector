@@ -63,30 +63,37 @@ namespace BrowserSelector
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            EditRule(new SelectionRule(), true);
+            SelectionRule rule = new SelectionRule();
+            if (DialogResult.OK == EditRule(rule))
+            {
+                AddNewRule(rule);
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                EditRule(((RuleListViewItem)listView1.SelectedItems[0]).Rule, false);
+                RuleListViewItem rlvi = (RuleListViewItem)listView1.SelectedItems[0];
+                if (DialogResult.OK == EditRule(rlvi.Rule))
+                {
+                    rlvi.Update();
+                }
             }
         }
 
-        private void EditRule(SelectionRule rule, bool addIfOk)
+        private DialogResult EditRule(SelectionRule rule)
         {
             RuleEditor editor = new RuleEditor(Browsers);
             editor.LoadRule(rule);
-            if (DialogResult.OK == editor.ShowDialog(this))
+            DialogResult answer = editor.ShowDialog(this);
+            if (DialogResult.OK == answer)
             {
                 AppConfig.UnsavedChanges = true;
                 editor.UpdateRule(rule);
-                if (addIfOk)
-                {
-                    AddNewRule(rule);
-                }
             }
+
+            return answer;
         }
 
         private void btnRemove_Click(object sender, EventArgs e)

@@ -14,11 +14,15 @@ namespace BrowserSelector
         {
             Rule = rule;
 
-            Text = rule.RuleText;
+            Update();
+        }
 
-            SubItems.Add(rule.TargetBrowserId);
-            SubItems.Add(rule.Type.ToString());
-            ImageKey = rule.TargetBrowserId;
+        internal void Update()
+        {
+            Text = Rule.RuleText;
+            SubItems.Add(Rule.TargetBrowserId);
+            SubItems.Add(Rule.Type.ToString());
+            ImageKey = Rule.TargetBrowserId;
         }
     }
 }
