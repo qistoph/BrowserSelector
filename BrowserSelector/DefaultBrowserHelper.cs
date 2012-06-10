@@ -202,6 +202,8 @@ namespace BrowserSelector
             List<BrowserInfo> browsers = new List<BrowserInfo>();
 
             //HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\CVM.DefaultBrowserHelper\Capabilities\URLAssociations
+            
+            //TODO: read Mail clients too
             RegistryKey regStartMenuInternet = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
             foreach (string subkey in regStartMenuInternet.GetSubKeyNames())
             {
