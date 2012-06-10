@@ -8,8 +8,8 @@ namespace BrowserSelector
 {
     public enum RuleType
     {
+        Regex,
         Protocol,
-        Regex
     }
 
     public class SelectionRule
