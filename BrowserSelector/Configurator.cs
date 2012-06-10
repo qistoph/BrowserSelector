@@ -61,5 +61,21 @@ namespace BrowserSelector
             Rules rules = new Rules(AppConfig, Browsers);
             rules.ShowDialog(this);
         }
+
+        private void Configurator_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing && AppConfig.UnsavedChanges)
+            {
+                DialogResult answer = MessageBox.Show(this, "There are unsaved changed in the configuration. Save these changes?", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if (answer == DialogResult.Yes)
+                {
+                    AppConfig.Save(Program.GetConfigName());
+                }
+                else if (answer == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }

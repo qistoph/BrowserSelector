@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Default", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Custom", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Default", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Custom", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Subtext"}, -1);
             this.listView1 = new System.Windows.Forms.ListView();
@@ -53,17 +53,17 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colBrowserName,
             this.colBrowserPublisher});
-            listViewGroup3.Header = "Default";
-            listViewGroup3.Name = "lvgDefault";
-            listViewGroup3.Tag = "Default";
-            listViewGroup4.Header = "Custom";
-            listViewGroup4.Name = "lvgCustom";
-            listViewGroup4.Tag = "Custom";
+            listViewGroup5.Header = "Default";
+            listViewGroup5.Name = "lvgDefault";
+            listViewGroup5.Tag = "Default";
+            listViewGroup6.Header = "Custom";
+            listViewGroup6.Name = "lvgCustom";
+            listViewGroup6.Tag = "Custom";
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup5,
+            listViewGroup6});
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem3});
             this.listView1.Location = new System.Drawing.Point(12, 55);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -157,6 +157,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Browser Selector";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Launcher_FormClosing);
             this.Load += new System.EventHandler(this.Launcher_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.ResumeLayout(false);

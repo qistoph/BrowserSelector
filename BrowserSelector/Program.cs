@@ -15,9 +15,7 @@ namespace BrowserSelector
         [STAThread]
         static void Main(string[] arguments)
         {
-            string exePath = Path.GetDirectoryName(Application.ExecutablePath);
-            string exeNameWithoutExt = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
-            string ConfigFileName = Path.Combine(exePath, exeNameWithoutExt + ".config");
+            string configFileName = GetConfigName();
 
             string urlToLaunch = null;
             int n = 0;
@@ -44,7 +42,7 @@ namespace BrowserSelector
             {
                 Uri uriToLaunch = new Uri(urlToLaunch);
 
-                AppConfig appConfig = AppConfig.LoadOrDefault(ConfigFileName);
+                AppConfig appConfig = AppConfig.LoadOrDefault(configFileName);
 
                 SelectionRule matchedRule = null;
                 foreach (SelectionRule rule in appConfig.SelectionRules)
@@ -66,7 +64,7 @@ namespace BrowserSelector
 
                     if (form.DialogResult == DialogResult.OK)
                     {
-                        appConfig.Save(ConfigFileName);
+                        appConfig.Save(configFileName);
                     }
                 }
                 else
@@ -83,15 +81,24 @@ namespace BrowserSelector
                 }
                 else
                 {
-                    AppConfig appConfig = AppConfig.LoadOrDefault(ConfigFileName);
+                    AppConfig appConfig = AppConfig.LoadOrDefault(configFileName);
 
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Configurator(appConfig, browsers));
 
-                    appConfig.Save(ConfigFileName);
+                    appConfig.Save(configFileName);
                 }
             }
+        }
+
+        internal static string GetConfigName()
+        {
+
+            string exePath = Path.GetDirectoryName(Application.ExecutablePath);
+            string exeNameWithoutExt = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+            string configFileName = Path.Combine(exePath, exeNameWithoutExt + ".config");
+            return configFileName;
         }
     }
 }

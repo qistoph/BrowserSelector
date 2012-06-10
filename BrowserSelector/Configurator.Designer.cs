@@ -73,6 +73,7 @@
             this.Controls.Add(this.btnCheck);
             this.Name = "Configurator";
             this.Text = "Configurator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Configurator_FormClosing);
             this.ResumeLayout(false);
 
         }

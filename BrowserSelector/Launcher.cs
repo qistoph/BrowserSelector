@@ -80,6 +80,9 @@ namespace BrowserSelector
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if(AppConfig.UnsavedChanges)
+                AppConfig.Save(Program.GetConfigName());
+
             LaunchUrlInSelectedBrowser();
         }
 
@@ -93,5 +96,20 @@ namespace BrowserSelector
             new Rules(AppConfig, Browsers).ShowDialog();
         }
 
+        private void Launcher_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing && AppConfig.UnsavedChanges)
+            {
+                DialogResult answer = MessageBox.Show(this, "There are unsaved changed in the configuration. Save these changes?", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if (answer == DialogResult.Yes)
+                {
+                    AppConfig.Save(Program.GetConfigName());
+                }
+                else if (answer == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }

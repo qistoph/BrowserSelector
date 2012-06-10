@@ -15,6 +15,9 @@ namespace BrowserSelector
 
         public List<SelectionRule> SelectionRules { get; set; }
 
+        [XmlIgnore]
+        public bool UnsavedChanges { get; set; }
+
         public static AppConfig GetDefault()
         {
             List<SelectionRule> selectionRules = new List<SelectionRule>();
@@ -23,7 +26,8 @@ namespace BrowserSelector
 
             AppConfig config = new AppConfig()
             {
-                SelectionRules = selectionRules
+                SelectionRules = selectionRules,
+                UnsavedChanges = false
             };
             return config;
         }
@@ -38,6 +42,7 @@ namespace BrowserSelector
             using (FileStream fs = new FileStream(filename, FileMode.Create))
             {
                 ConfigSerializer.Serialize(fs, this);
+                UnsavedChanges = false;
             }
         }
 
@@ -61,6 +66,7 @@ namespace BrowserSelector
         public static AppConfig Load(Stream s)
         {
             AppConfig config = (AppConfig)ConfigSerializer.Deserialize(s);
+            config.UnsavedChanges = false;
 
             return config;
         }

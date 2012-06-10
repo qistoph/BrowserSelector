@@ -80,6 +80,7 @@ namespace BrowserSelector
             editor.LoadRule(rule);
             if (DialogResult.OK == editor.ShowDialog(this))
             {
+                AppConfig.UnsavedChanges = true;
                 editor.UpdateRule(rule);
                 if (addIfOk)
                 {
@@ -94,6 +95,7 @@ namespace BrowserSelector
 
             if (listView1.SelectedItems.Count > 0)
             {
+                AppConfig.UnsavedChanges = true;
                 AppConfig.SelectionRules.Remove(((RuleListViewItem)listView1.SelectedItems[0]).Rule);
 
                 listView1.Items.RemoveAt(listView1.SelectedIndices[0]);
@@ -107,6 +109,7 @@ namespace BrowserSelector
             System.Diagnostics.Debug.Assert(listView1.Items.Count == AppConfig.SelectionRules.Count);
 
             // Store the new rule
+            AppConfig.UnsavedChanges = true;
             AppConfig.SelectionRules.Add(rule);
 
             // Display the new rule
@@ -157,6 +160,7 @@ namespace BrowserSelector
                 SelectionRule rule = ((RuleListViewItem)lvi).Rule;
                 System.Diagnostics.Debug.Assert(rule == AppConfig.SelectionRules[oldIndex]);
                 // If that premesis is false, use SelectionRule rule = AppConfig.SelectionRules[oldIndex];
+                AppConfig.UnsavedChanges = true;
                 AppConfig.SelectionRules.RemoveAt(oldIndex);
                 AppConfig.SelectionRules.Insert(newIndex, rule);
 
