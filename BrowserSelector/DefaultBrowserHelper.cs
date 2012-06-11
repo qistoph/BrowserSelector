@@ -105,12 +105,8 @@ namespace BrowserSelector
             return isHandler;
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = @"BUILTIN\Administrators")]
         public static void CreateProgIdInRegistry()
         {
-            //if (IsProgIdInRegistry())
-            //throw new ApplicationException("ProgId already registered in registry");
-
             // Create the prog id
             RegistryKey regClasses = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Classes", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.CreateSubKey);
             RegistryKey regProgId = regClasses.CreateSubKey(GetProgId(), RegistryKeyPermissionCheck.ReadWriteSubTree);
@@ -122,6 +118,7 @@ namespace BrowserSelector
 
             RegistryKey regShellOpenCmd = regProgId.CreateSubKey(@"shell\open\command", RegistryKeyPermissionCheck.ReadWriteSubTree);
             regShellOpenCmd.SetValue(null, "\"" + GetProgramExecutablePath() + "\" -- \"%1\"", RegistryValueKind.String);
+            //regShellOpenCmd.SetValue(null, "\"" + GetProgramExecutablePath() + "\" -d -- \"%1\"", RegistryValueKind.String);
         }
 
         public static void RegisterAsDefault()
@@ -139,7 +136,7 @@ namespace BrowserSelector
         public static void CreateStartMenuInternet()
         {
             string progId = GetProgId();
-            string smiName = progId; // Path.GetFileName(Application.ExecutablePath);
+            string smiName = progId;
             RegistryKey regStartMenuInternet = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet", RegistryKeyPermissionCheck.ReadWriteSubTree, System.Security.AccessControl.RegistryRights.CreateSubKey);
             RegistryKey regProgKey = regStartMenuInternet.CreateSubKey(smiName, RegistryKeyPermissionCheck.ReadWriteSubTree);
             regProgKey.SetValue(null, "Browser Selector", RegistryValueKind.String);
@@ -211,7 +208,7 @@ namespace BrowserSelector
 
                 string browserName;
                 string exePath = null;
-                System.Drawing.Icon icon;
+                string iconLocation;
                 List<string> appliesTo = new List<string>();
 
                 RegistryKey regSubKey = regStartMenuInternet.OpenSubKey(subkey, RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
@@ -221,8 +218,7 @@ namespace BrowserSelector
                 {
                     browserName = regCapabilities.GetValue("ApplicationName") as string;
 
-                    string iconLocation = regCapabilities.GetValue("ApplicationIcon") as string;
-                    icon = GetIconFromPath(iconLocation);
+                    iconLocation = regCapabilities.GetValue("ApplicationIcon") as string;
 
                     RegistryKey regUrlAssociations = regCapabilities.OpenSubKey("URLAssociations", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     string lastAppSpecId = null;
@@ -258,8 +254,7 @@ namespace BrowserSelector
                     browserName = regSubKey.GetValue(null) as string;
 
                     RegistryKey regDefaultIcon = regStartMenuInternet.OpenSubKey(subkey + @"\DefaultIcon", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
-                    string iconLocation = regDefaultIcon.GetValue(null) as string;
-                    icon = GetIconFromPath(iconLocation);
+                    iconLocation = regDefaultIcon.GetValue(null) as string;
 
                     RegistryKey regShellOpenCommand = Registry.ClassesRoot.OpenSubKey(@"Applications\" + subkey + @"\shell\open\command", RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
                     exePath = regShellOpenCommand.GetValue(null) as string;
@@ -270,40 +265,13 @@ namespace BrowserSelector
                     appliesTo.Add("ftp");
                 }
 
-                //using (System.IO.FileStream fs = new System.IO.FileStream("icon-" + browserName + ".bmp", System.IO.FileMode.Create))
-                //{
-                //    icon.Save(fs);
-                //}
-
                 if (exePath == null)
                     throw new ApplicationException("exePath == null");
 
-                browsers.Add(new BrowserInfo(browserName, BrowserCategory.Default, exePath, icon) { AppliesTo = appliesTo });
+                browsers.Add(new BrowserInfo(browserName, BrowserCategory.Default, exePath, iconLocation) { AppliesTo = appliesTo });
             }
 
             return browsers.ToArray();
-        }
-
-        private static System.Drawing.Icon GetIconFromPath(string iconLocation)
-        {
-            int iconIndex;
-            string iconFile;
-
-            iconLocation = iconLocation.Replace("\"", "");
-
-            int commaAt = iconLocation.IndexOf(',');
-            if (commaAt < 0)
-            {
-                iconIndex = 0;
-                iconFile = iconLocation;
-            }
-            else
-            {
-                iconIndex = int.Parse(iconLocation.Substring(commaAt + 1));
-                iconFile = iconLocation.Substring(0, commaAt);
-            }
-
-            return IconExtracter.ExtractIconFromExe(iconFile, iconIndex, true);
         }
     }
 

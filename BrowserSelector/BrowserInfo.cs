@@ -26,11 +26,44 @@ namespace BrowserSelector
         [XmlIgnore]
         public BrowserCategory Category { get; protected internal set; }
 
-        [XmlIgnore]
-        public Icon Icon { get; protected internal set; }
+        private Icon _Icon = null;
+        private string IconLocation = null;
 
         [XmlIgnore]
-        public string Company { get; protected set; }
+        public Icon Icon
+        {
+            get
+            {
+                if (_Icon == null)
+                {
+                    _Icon = GetIconFromPath(IconLocation ?? Executable, true);
+                }
+                return _Icon;
+            }
+            protected internal set
+            {
+                _Icon = value;
+            }
+        }
+
+        private string _Company = null;
+
+        [XmlIgnore]
+        public string Company
+        {
+            get
+            {
+                if (_Company == null)
+                {
+                    _Company = FileVersionInfo.GetVersionInfo(Executable).CompanyName;
+                }
+                return _Company;
+            }
+            protected set
+            {
+                _Company = value;
+            }
+        }
 
         public BrowserInfo()
         {
@@ -44,19 +77,10 @@ namespace BrowserSelector
             Category = category;
             Executable = exe;
             Arguments = arguments;
-            SetValuesFromExe();
+            IconLocation = Executable;
         }
 
-        public BrowserInfo(string name, BrowserCategory category, string exePath, string arguments)
-        {
-            Name = name;
-            Category = category;
-            Executable = exePath;
-            Arguments = arguments;
-            SetValuesFromExe();
-        }
-
-        public BrowserInfo(string name, BrowserCategory category, string exePathWithArguments, Icon icon)
+        public BrowserInfo(string name, BrowserCategory category, string exePathWithArguments, string iconLocation)
         {
             string exe, arguments;
             SplitExeAndArgs(exePathWithArguments, out exe, out arguments);
@@ -64,24 +88,7 @@ namespace BrowserSelector
             Category = category;
             Executable = exe;
             Arguments = arguments;
-            Icon = icon;
-            SetCompanyFromExe();
-        }
-
-        public void SetCompanyFromExe()
-        {
-            Company = FileVersionInfo.GetVersionInfo(Executable).CompanyName;
-        }
-
-        public void SetIconFromExe()
-        {
-            Icon = IconExtracter.ExtractIconFromExe(Executable, true);
-        }
-
-        public void SetValuesFromExe()
-        {
-            SetCompanyFromExe();
-            SetIconFromExe();
+            IconLocation = iconLocation;
         }
 
         public void Launch(Uri uri)
@@ -89,8 +96,6 @@ namespace BrowserSelector
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = Executable;
             psi.Arguments = Arguments.Replace("%1", uri.ToString());
-
-            //MessageBox.Show("Exe: " + exePath + Environment.NewLine + "Args: " + arguments);
 
             Process.Start(psi);
         }
@@ -153,6 +158,26 @@ namespace BrowserSelector
             //    pathParts.Add(str.ToString());
         }
 
+        private static System.Drawing.Icon GetIconFromPath(string iconLocation, bool large)
+        {
+            int iconIndex;
+            string iconFile;
 
+            iconLocation = iconLocation.Replace("\"", "");
+
+            int commaAt = iconLocation.IndexOf(',');
+            if (commaAt < 0)
+            {
+                iconIndex = 0;
+                iconFile = iconLocation;
+            }
+            else
+            {
+                iconIndex = int.Parse(iconLocation.Substring(commaAt + 1));
+                iconFile = iconLocation.Substring(0, commaAt);
+            }
+
+            return IconExtracter.ExtractIconFromExe(iconFile, iconIndex, large);
+        }
     }
 }

@@ -101,7 +101,6 @@ namespace BrowserSelector
 
         internal static string GetConfigName()
         {
-
             string exePath = Path.GetDirectoryName(Application.ExecutablePath);
             string exeNameWithoutExt = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
             string configFileName = Path.Combine(exePath, exeNameWithoutExt + ".config");

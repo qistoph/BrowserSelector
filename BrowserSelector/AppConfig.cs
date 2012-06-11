@@ -29,7 +29,7 @@ namespace BrowserSelector
             //selectionRules.Add(new SelectionRule("Google Chrome", RuleType.Regex, "(ftp)|(https?)"));
 
             List<BrowserInfo> customBrowsers = new List<BrowserInfo>();
-            customBrowsers.Add(new BrowserInfo("WinSCP", BrowserCategory.Custom, @"C:\progs\WinSCP\WinSCP.exe", "%1"));
+            customBrowsers.Add(new BrowserInfo("WinSCP", BrowserCategory.Custom, @"""C:\progs\WinSCP\WinSCP.exe"" ""%1"""));
             customBrowsers[0].AppliesTo = new List<string>();
             customBrowsers[0].AppliesTo.Add("ftp");
 
@@ -82,7 +82,6 @@ namespace BrowserSelector
             foreach (BrowserInfo bi in config.CustomBrowsers)
             {
                 bi.Category = BrowserCategory.Custom;
-                bi.SetValuesFromExe();
             }
 
             return config;
