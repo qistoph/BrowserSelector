@@ -14,7 +14,7 @@ namespace BrowserSelector
     {
         private Dictionary<ListViewItem, BrowserInfo> ListViewBrowsers = null;
 
-        protected internal string UrlToLaunch { get; set; }
+        protected internal Uri UriToLaunch { get; set; }
 
         private AppConfig AppConfig;
         private BrowserInfo[] Browsers;
@@ -38,7 +38,7 @@ namespace BrowserSelector
 
         private void Launcher_Load(object sender, EventArgs e)
         {
-            lblUrl.Text = "Link: " + UrlToLaunch;
+            lblUrl.Text = "Link: " + UriToLaunch.ToString();
             ShowAvailableBrowsers();
         }
 
@@ -52,10 +52,8 @@ namespace BrowserSelector
 
             ListViewBrowsers = new Dictionary<ListViewItem, BrowserInfo>();
 
-            Uri uri = new Uri(UrlToLaunch);
-
             int n = 0;
-            foreach (BrowserInfo browserInfo in Browsers.Where(bi => bi.AppliesTo.Contains(uri.Scheme)))
+            foreach (BrowserInfo browserInfo in Browsers.Where(bi => bi.AppliesTo.Contains(UriToLaunch.Scheme)))
             {
                 listView1.LargeImageList.Images.Add(browserInfo.Icon);
                 ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
@@ -91,7 +89,7 @@ namespace BrowserSelector
             if (listView1.SelectedItems.Count == 1)
             {
                 BrowserInfo browser = ListViewBrowsers[listView1.SelectedItems[0]];
-                browser.Launch(UrlToLaunch);
+                browser.Launch(UriToLaunch);
                 this.Close();
             }
         }

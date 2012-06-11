@@ -84,11 +84,11 @@ namespace BrowserSelector
             SetIconFromExe();
         }
 
-        public void Launch(string url)
+        public void Launch(Uri uri)
         {
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = Executable;
-            psi.Arguments = Arguments.Replace("%1", url); ;
+            psi.Arguments = Arguments.Replace("%1", uri.ToString());
 
             //MessageBox.Show("Exe: " + exePath + Environment.NewLine + "Args: " + arguments);
 

@@ -21,7 +21,7 @@ namespace BrowserSelector
             int n = 0;
             for (; n < arguments.Length; ++n)
             {
-                if (arguments[n] == "-b")
+                if (arguments[n] == "-d")
                 {
                     Debugger.Launch();
                 }
@@ -48,7 +48,7 @@ namespace BrowserSelector
 
             if (urlToLaunch != null)
             {
-                LaunchUrl(urlToLaunch, browsers);
+                LaunchUrl(new Uri(urlToLaunch), browsers);
             }
             else
             {
@@ -65,10 +65,8 @@ namespace BrowserSelector
             }
         }
 
-        private static void LaunchUrl(string urlToLaunch, BrowserInfo[] browsers)
+        private static void LaunchUrl(Uri uriToLaunch, BrowserInfo[] browsers)
         {
-            Uri uriToLaunch = new Uri(urlToLaunch);
-
             AppConfig appConfig = AppConfig.LoadOrDefault(GetConfigName());
 
             SelectionRule matchedRule = null;
@@ -86,7 +84,7 @@ namespace BrowserSelector
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Launcher form = new Launcher(appConfig, browsers);
-                form.UrlToLaunch = urlToLaunch;
+                form.UriToLaunch = uriToLaunch;
                 Application.Run(form);
 
                 if (form.DialogResult == DialogResult.OK)
@@ -97,7 +95,7 @@ namespace BrowserSelector
             else
             {
                 BrowserInfo browser = browsers.First(bi => bi.Name == matchedRule.TargetBrowserId);
-                browser.Launch(urlToLaunch);
+                browser.Launch(uriToLaunch);
             }
         }
 
