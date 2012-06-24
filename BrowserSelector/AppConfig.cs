@@ -33,6 +33,12 @@ namespace BrowserSelector
             customBrowsers[0].AppliesTo = new List<string>();
             customBrowsers[0].AppliesTo.Add("ftp");
 
+            customBrowsers.Add(new BrowserInfo("Internet Explorer (x64)", BrowserCategory.Custom, @"""C:\Program Files\Internet Explorer\iexplore.exe"" ""%1"""));
+            customBrowsers[1].AppliesTo = new List<string>();
+            customBrowsers[1].AppliesTo.Add("ftp");
+            customBrowsers[1].AppliesTo.Add("http");
+            customBrowsers[1].AppliesTo.Add("https");
+
             AppConfig config = new AppConfig()
             {
                 SelectionRules = selectionRules,
