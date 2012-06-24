@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="urn:browserselector-schema" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:browserselector-schema">
+  <xs:element name="AppConfig" nillable="true" type="AppConfig" />
+  <xs:complexType name="AppConfig">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SelectionRule" type="SelectionRule" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CustomBrowser" type="BrowserInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SelectionRule">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TargetBrowserId" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Type" type="RuleType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RuleText" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RuleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Regex" />
+      <xs:enumeration value="Protocol" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="BrowserInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Executable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Arguments" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Apply" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
