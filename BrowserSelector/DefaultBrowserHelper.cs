@@ -117,8 +117,8 @@ namespace BrowserSelector
             regIcon.SetValue(null, GetProgramIconPath(), RegistryValueKind.String);
 
             RegistryKey regShellOpenCmd = regProgId.CreateSubKey(@"shell\open\command", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            regShellOpenCmd.SetValue(null, "\"" + GetProgramExecutablePath() + "\" -- \"%1\"", RegistryValueKind.String);
-            //regShellOpenCmd.SetValue(null, "\"" + GetProgramExecutablePath() + "\" -d -- \"%1\"", RegistryValueKind.String);
+            regShellOpenCmd.SetValue(null, "\"" + GetProgramExecutablePath() + "\" \"%1\"", RegistryValueKind.String);
+            //regShellOpenCmd.SetValue(null, "\"" + GetProgramExecutablePath() + "\" -d \"%1\"", RegistryValueKind.String);
         }
 
         public static void RegisterAsDefault()

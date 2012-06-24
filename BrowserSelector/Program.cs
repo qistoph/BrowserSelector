@@ -9,12 +9,15 @@ namespace BrowserSelector
 {
     static class Program
     {
+        //TODO: HKEY_CLASSES_ROOT\http\shell\open\command
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] arguments)
         {
+            //Debugger.Launch();
             string configFileName = GetConfigName();
 
             string urlToLaunch = null;
@@ -25,15 +28,11 @@ namespace BrowserSelector
                 {
                     Debugger.Launch();
                 }
-                else if (arguments[n] == "--")
+                else if(urlToLaunch == null)
                 {
-                    ++n;
-                    break;
+                    urlToLaunch = arguments[n];
                 }
             }
-
-            if (n < arguments.Length)
-                urlToLaunch = arguments[n];
 
             AppConfig appConfig = AppConfig.LoadOrDefault(configFileName);
 
@@ -85,6 +84,7 @@ namespace BrowserSelector
                 Application.SetCompatibleTextRenderingDefault(false);
                 Launcher form = new Launcher(appConfig, browsers);
                 form.UriToLaunch = uriToLaunch;
+                form.BringToFront();
                 Application.Run(form);
 
                 if (form.DialogResult == DialogResult.OK)

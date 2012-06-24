@@ -155,6 +155,7 @@
             this.Name = "Launcher";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Browser Selector";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Launcher_FormClosing);
