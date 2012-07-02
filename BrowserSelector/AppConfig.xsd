@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema targetNamespace="urn:browserselector-schema" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:browserselector-schema">
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="AppConfig" nillable="true" type="AppConfig" />
   <xs:complexType name="AppConfig">
     <xs:sequence>
