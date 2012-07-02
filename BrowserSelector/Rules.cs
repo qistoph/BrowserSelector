@@ -72,6 +72,11 @@ namespace BrowserSelector
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            EditSelected();
+        }
+
+        private void EditSelected()
+        {
             if (listView1.SelectedItems.Count > 0)
             {
                 RuleListViewItem rlvi = (RuleListViewItem)listView1.SelectedItems[0];
@@ -177,6 +182,11 @@ namespace BrowserSelector
                 System.Diagnostics.Debug.Assert(((RuleListViewItem)listView1.Items[oldIndex]).Rule == AppConfig.SelectionRules[oldIndex]);
                 System.Diagnostics.Debug.Assert(((RuleListViewItem)listView1.Items[newIndex]).Rule == AppConfig.SelectionRules[newIndex]);
             }
+        }
+
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            EditSelected();
         }
     }
 }
