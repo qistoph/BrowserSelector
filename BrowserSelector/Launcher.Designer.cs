@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Default Browsers", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Custom Browsers", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Default Browsers", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Custom Browsers", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Subtext"}, -1);
             this.listView1 = new System.Windows.Forms.ListView();
@@ -40,7 +40,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnRules = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblUrl = new System.Windows.Forms.Label();
+            this.txtUrl = new System.Windows.Forms.TextBox();
             this.pbIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
@@ -53,17 +53,17 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colBrowserName,
             this.colBrowserPublisher});
-            listViewGroup1.Header = "Default Browsers";
-            listViewGroup1.Name = "lvgDefault";
-            listViewGroup1.Tag = "Default";
-            listViewGroup2.Header = "Custom Browsers";
-            listViewGroup2.Name = "lvgCustom";
-            listViewGroup2.Tag = "Custom";
+            listViewGroup7.Header = "Default Browsers";
+            listViewGroup7.Name = "lvgDefault";
+            listViewGroup7.Tag = "Default";
+            listViewGroup8.Header = "Custom Browsers";
+            listViewGroup8.Name = "lvgCustom";
+            listViewGroup8.Tag = "Custom";
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup7,
+            listViewGroup8});
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem4});
             this.listView1.Location = new System.Drawing.Point(12, 55);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -117,15 +117,20 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Choose the program you want to use to open this link:";
             // 
-            // lblUrl
+            // txtUrl
             // 
-            this.lblUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUrl.Location = new System.Drawing.Point(50, 35);
-            this.lblUrl.Name = "lblUrl";
-            this.lblUrl.Size = new System.Drawing.Size(324, 13);
-            this.lblUrl.TabIndex = 1;
-            this.lblUrl.Text = "Link: ...";
+            this.txtUrl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtUrl.Cursor = System.Windows.Forms.Cursors.Default;
+            this.txtUrl.Location = new System.Drawing.Point(53, 36);
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.ReadOnly = true;
+            this.txtUrl.Size = new System.Drawing.Size(321, 13);
+            this.txtUrl.TabIndex = 1;
+            this.txtUrl.TabStop = false;
+            this.txtUrl.Text = "...";
+            this.txtUrl.WordWrap = false;
             // 
             // pbIcon
             // 
@@ -143,7 +148,7 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(386, 187);
             this.Controls.Add(this.pbIcon);
-            this.Controls.Add(this.lblUrl);
+            this.Controls.Add(this.txtUrl);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnRules);
             this.Controls.Add(this.btnCancel);
@@ -175,7 +180,7 @@
         private System.Windows.Forms.ColumnHeader colBrowserName;
         private System.Windows.Forms.ColumnHeader colBrowserPublisher;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblUrl;
+        private System.Windows.Forms.TextBox txtUrl;
         private System.Windows.Forms.PictureBox pbIcon;
     }
 }

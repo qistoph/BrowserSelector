@@ -38,7 +38,8 @@ namespace BrowserSelector
 
         private void Launcher_Load(object sender, EventArgs e)
         {
-            lblUrl.Text = "Link: " + UriToLaunch.ToString();
+            txtUrl.Text = UriToLaunch.ToString();
+            
             ShowAvailableBrowsers();
         }
 
