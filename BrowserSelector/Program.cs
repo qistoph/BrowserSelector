@@ -47,7 +47,7 @@ namespace BrowserSelector
 
             if (urlToLaunch != null)
             {
-                LaunchUrl(new Uri(urlToLaunch), browsers);
+                LaunchUrl(urlToLaunch, browsers);
             }
             else
             {
@@ -64,17 +64,22 @@ namespace BrowserSelector
             }
         }
 
-        private static void LaunchUrl(Uri uriToLaunch, BrowserInfo[] browsers)
+        private static void LaunchUrl(string urlToLaunch, BrowserInfo[] browsers)
         {
             AppConfig appConfig = AppConfig.LoadOrDefault(GetConfigName());
-
             SelectionRule matchedRule = null;
-            foreach (SelectionRule rule in appConfig.SelectionRules)
+
+            if (Uri.IsWellFormedUriString(urlToLaunch, UriKind.Absolute))
             {
-                if (rule.Matches(uriToLaunch))
+                Uri uriToLaunch = new Uri(urlToLaunch);
+
+                foreach (SelectionRule rule in appConfig.SelectionRules)
                 {
-                    matchedRule = rule;
-                    break;
+                    if (rule.Matches(uriToLaunch))
+                    {
+                        matchedRule = rule;
+                        break;
+                    }
                 }
             }
 
@@ -83,7 +88,7 @@ namespace BrowserSelector
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Launcher form = new Launcher(appConfig, browsers);
-                form.UriToLaunch = uriToLaunch;
+                form.UrlToLaunch = urlToLaunch;
                 form.BringToFront();
                 Application.Run(form);
 
@@ -95,7 +100,7 @@ namespace BrowserSelector
             else
             {
                 BrowserInfo browser = browsers.First(bi => bi.Name == matchedRule.TargetBrowserId);
-                browser.Launch(uriToLaunch);
+                browser.Launch(urlToLaunch);
             }
         }
 

@@ -91,11 +91,11 @@ namespace BrowserSelector
             IconLocation = iconLocation;
         }
 
-        public void Launch(Uri uri)
+        public void Launch(string url)
         {
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = Executable;
-            psi.Arguments = Arguments.Replace("%1", uri.ToString());
+            psi.Arguments = Arguments.Replace("%1", url);
 
             Process.Start(psi);
         }

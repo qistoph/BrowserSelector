@@ -14,7 +14,7 @@ namespace BrowserSelector
     {
         private Dictionary<ListViewItem, BrowserInfo> ListViewBrowsers = null;
 
-        protected internal Uri UriToLaunch { get; set; }
+        protected internal string UrlToLaunch { get; set; }
 
         private AppConfig AppConfig;
         private BrowserInfo[] Browsers;
@@ -38,7 +38,7 @@ namespace BrowserSelector
 
         private void Launcher_Load(object sender, EventArgs e)
         {
-            txtUrl.Text = UriToLaunch.ToString();
+            txtUrl.Text = UrlToLaunch.ToString();
             
             ShowAvailableBrowsers();
         }
@@ -53,17 +53,26 @@ namespace BrowserSelector
 
             ListViewBrowsers = new Dictionary<ListViewItem, BrowserInfo>();
 
-            int n = 0;
-            foreach (BrowserInfo browserInfo in Browsers.Where(bi => bi.AppliesTo.Contains(UriToLaunch.Scheme)))
+            Uri uriToLaunch = null;
+            if (Uri.IsWellFormedUriString(UrlToLaunch, UriKind.Absolute))
             {
-                listView1.LargeImageList.Images.Add(browserInfo.Icon);
-                ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
-                lvi.Group = listView1.Groups[GetCategoryName(browserInfo.Category)];
-                lvi.SubItems.Add(browserInfo.Company);
-                ListViewBrowsers.Add(lvi, browserInfo);
-                listView1.Items.Add(lvi);
+                uriToLaunch = new Uri(UrlToLaunch);
+            }
 
-                n++;
+            int n = 0;
+            foreach (BrowserInfo browserInfo in Browsers)
+            {
+                if (uriToLaunch == null || browserInfo.AppliesTo.Contains(uriToLaunch.Scheme))
+                {
+                    listView1.LargeImageList.Images.Add(browserInfo.Icon);
+                    ListViewItem lvi = new ListViewItem(browserInfo.Name, n);
+                    lvi.Group = listView1.Groups[GetCategoryName(browserInfo.Category)];
+                    lvi.SubItems.Add(browserInfo.Company);
+                    ListViewBrowsers.Add(lvi, browserInfo);
+                    listView1.Items.Add(lvi);
+
+                    n++;
+                }
             }
         }
 
@@ -90,7 +99,7 @@ namespace BrowserSelector
             if (listView1.SelectedItems.Count == 1)
             {
                 BrowserInfo browser = ListViewBrowsers[listView1.SelectedItems[0]];
-                browser.Launch(UriToLaunch);
+                browser.Launch(UrlToLaunch);
                 this.Close();
             }
         }
