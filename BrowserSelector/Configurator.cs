@@ -12,18 +12,18 @@ namespace BrowserSelector
     public partial class Configurator : Form
     {
         private AppConfig AppConfig;
-        private BrowserInfo[] Browsers;
+        private BrowserInfo[] DefaultBrowsers;
 
         public Configurator()
         {
             InitializeComponent();
         }
 
-        public Configurator(AppConfig config, BrowserInfo[] browser)
+        public Configurator(AppConfig config, BrowserInfo[] defaultBrowsers)
         {
             InitializeComponent();
             AppConfig = config;
-            Browsers = browser;
+            DefaultBrowsers = defaultBrowsers;
 
             Text = Properties.Resources.AppName;
             Icon = Properties.Resources.AppIcon;
@@ -61,8 +61,24 @@ namespace BrowserSelector
 
         private void btnRules_Click(object sender, EventArgs e)
         {
-            Rules rules = new Rules(AppConfig, Browsers);
+            BrowserInfo[] customBrowsers = AppConfig.CustomBrowsers.ToArray();
+            BrowserInfo[] browsers = new BrowserInfo[DefaultBrowsers.Length + customBrowsers.Length];
+            DefaultBrowsers.CopyTo(browsers, 0);
+            customBrowsers.CopyTo(browsers, DefaultBrowsers.Length);
+
+            Rules rules = new Rules(AppConfig, browsers);
             rules.ShowDialog(this);
+        }
+
+        private void btnBrowsers_Click(object sender, EventArgs e)
+        {
+            CustomBrowserEditor cbe = new CustomBrowserEditor();
+            if (cbe.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                BrowserInfo bi = cbe.GetBrowserInfo();
+                AppConfig.CustomBrowsers.Add(bi);
+                AppConfig.UnsavedChanges = true;
+            }
         }
 
         private void Configurator_FormClosing(object sender, FormClosingEventArgs e)

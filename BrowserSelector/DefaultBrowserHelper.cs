@@ -61,8 +61,10 @@ namespace BrowserSelector
     {
     }
 
-    public class DefaultBrowserHelper
+    public static class DefaultBrowserHelper
     {
+        public const string BrowserRegistryId = "CVM.BrowserSelector";
+
         public static void Test()
         {
             IApplicationAssociationRegistration reg =
@@ -180,7 +182,7 @@ namespace BrowserSelector
 
         private static string GetProgId()
         {
-            return "CVM.DefaultBrowserHelper";
+            return BrowserRegistryId;
         }
 
         private static string GetProgramExecutablePath()

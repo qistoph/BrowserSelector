@@ -58,10 +58,22 @@
     <Compile Include="Configurator.Designer.cs">
       <DependentUpon>Configurator.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomBrowserEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomBrowserEditor.Designer.cs">
+      <DependentUpon>CustomBrowserEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomBrowserHelper.cs" />
     <Compile Include="DefaultBrowserHelper.cs" />
     <Compile Include="EnumComboBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IconSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IconSelector.Designer.cs">
+      <DependentUpon>IconSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Launcher.cs">
       <SubType>Form</SubType>
@@ -89,6 +101,12 @@
     <Compile Include="UacHelper.cs" />
     <EmbeddedResource Include="Configurator.resx">
       <DependentUpon>Configurator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomBrowserEditor.resx">
+      <DependentUpon>CustomBrowserEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IconSelector.resx">
+      <DependentUpon>IconSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>

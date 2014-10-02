@@ -36,6 +36,11 @@ namespace BrowserSelector
             IntPtr[] phIconSmall,
             int nIcons);
 
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto, CallingConvention =
+        CallingConvention.Winapi)]
+        public static extern IntPtr ExtractIcon(IntPtr hInstance, string strFileName, uint uiIconIndex);
+
         [DllImport("user32.dll", EntryPoint = "DestroyIcon", SetLastError = true)]
         private static extern int DestroyIcon(IntPtr hIcon);
 

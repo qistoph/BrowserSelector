@@ -31,6 +31,7 @@
             this.btnCheck = new System.Windows.Forms.Button();
             this.btnSet = new System.Windows.Forms.Button();
             this.btnRules = new System.Windows.Forms.Button();
+            this.btnBrowsers = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCheck
@@ -63,11 +64,22 @@
             this.btnRules.UseVisualStyleBackColor = true;
             this.btnRules.Click += new System.EventHandler(this.btnRules_Click);
             // 
+            // btnBrowsers
+            // 
+            this.btnBrowsers.Location = new System.Drawing.Point(255, 12);
+            this.btnBrowsers.Name = "btnBrowsers";
+            this.btnBrowsers.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowsers.TabIndex = 3;
+            this.btnBrowsers.Text = "&Browsers";
+            this.btnBrowsers.UseVisualStyleBackColor = true;
+            this.btnBrowsers.Click += new System.EventHandler(this.btnBrowsers_Click);
+            // 
             // Configurator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 42);
+            this.ClientSize = new System.Drawing.Size(339, 42);
+            this.Controls.Add(this.btnBrowsers);
             this.Controls.Add(this.btnRules);
             this.Controls.Add(this.btnSet);
             this.Controls.Add(this.btnCheck);
@@ -86,5 +98,6 @@
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.Button btnSet;
         private System.Windows.Forms.Button btnRules;
+        private System.Windows.Forms.Button btnBrowsers;
     }
 }
