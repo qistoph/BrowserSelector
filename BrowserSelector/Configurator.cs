@@ -72,13 +72,8 @@ namespace BrowserSelector
 
         private void btnBrowsers_Click(object sender, EventArgs e)
         {
-            CustomBrowserEditor cbe = new CustomBrowserEditor();
-            if (cbe.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            {
-                BrowserInfo bi = cbe.GetBrowserInfo();
-                AppConfig.CustomBrowsers.Add(bi);
-                AppConfig.UnsavedChanges = true;
-            }
+            CustomBrowsers cb = new CustomBrowsers(AppConfig);
+            cb.ShowDialog(this);
         }
 
         private void Configurator_FormClosing(object sender, FormClosingEventArgs e)

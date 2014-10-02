@@ -27,7 +27,7 @@ namespace BrowserSelector
         public BrowserCategory Category { get; protected internal set; }
 
         private Icon _Icon = null;
-        private string IconLocation = null;
+        public string IconLocation = null;
 
         [XmlIgnore]
         public Icon Icon

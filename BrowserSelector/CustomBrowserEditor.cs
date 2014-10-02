@@ -23,23 +23,34 @@ namespace BrowserSelector
         public CustomBrowserEditor(BrowserInfo browser)
             : this()
         {
-            ShowBrowser(browser);
+            LoadCustomBrowser(browser);
         }
 
-        private void ShowBrowser(BrowserInfo browser)
+        public void LoadCustomBrowser(BrowserInfo browser)
         {
-            throw new NotImplementedException();
+            txtName.Text = browser.Name;
+            lblExe.Text = browser.Executable;
+            lblIcon.Text = browser.IconLocation;
+            if (browser.IconLocation != null)
+            {
+                UpdateIcon(browser);
+            }
         }
 
         internal BrowserInfo GetBrowserInfo()
         {
-            string name = txtName.Text;
-            BrowserCategory category = BrowserCategory.Custom;
-            string exePathWithArguments = lblExe.Text;
-            string iconLocation = lblIcon.Text;
-
-            BrowserInfo bi = new BrowserInfo(name, category, exePathWithArguments, iconLocation);
+            BrowserInfo bi = new BrowserInfo();
+            UpdateCustomBrowser(bi);
             return bi;
+        }
+
+        internal void UpdateCustomBrowser(BrowserInfo customBrowser)
+        {
+            customBrowser.Name = txtName.Text;
+            customBrowser.Category = BrowserCategory.Custom;
+            customBrowser.Executable = lblExe.Text;
+            customBrowser.Arguments = "\"%1\"";
+            customBrowser.IconLocation = lblIcon.Text;
         }
 
         private void btnExeBrowse_Click(object sender, EventArgs e)
@@ -54,13 +65,17 @@ namespace BrowserSelector
             }
         }
 
+        private void UpdateIcon(BrowserInfo browserInfo)
+        {
+            lblIcon.Text = browserInfo.IconLocation;
+            pbBrowserIcon.Image = browserInfo.Icon.ToBitmap();
+        }
+
         private void UpdateIcon(string iconFile, int index)
         {
             lblIcon.Text = "\"" + iconFile + "\"," + index;
 
-            //Icon icon = IconExtracter.ExtractIconFromExe(iconFile, index, true);
-            IntPtr pIcon = IconExtracter.ExtractIcon(IntPtr.Zero, iconFile, (uint)index);
-            Icon icon = Icon.FromHandle(pIcon);
+            Icon icon = IconExtracter.ExtractIconFromExe(iconFile, index, true);
             pbBrowserIcon.Image = icon.ToBitmap();
         }
 
