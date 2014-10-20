@@ -73,15 +73,7 @@ namespace BrowserSelector
             if (Uri.IsWellFormedUriString(urlToLaunch, UriKind.Absolute))
             {
                 Uri uriToLaunch = new Uri(urlToLaunch);
-
-                foreach (SelectionRule rule in appConfig.SelectionRules)
-                {
-                    if (rule.Matches(uriToLaunch))
-                    {
-                        matchedRule = rule;
-                        break;
-                    }
-                }
+                matchedRule = appConfig.SelectionRules.FirstOrDefault(rule => rule.Matches(uriToLaunch));
             }
 
             if (matchedRule == null)
